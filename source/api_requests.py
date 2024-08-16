@@ -1,34 +1,17 @@
 import aiohttp
 import asyncio
-from enum import Enum
 from loguru import logger
 
 from .config import CONFIG
+from .data_types import RagMethod, RagType, Language
 
 ENDPOINT = CONFIG["endpoint"]['prod']
 
 
-class Language(str, Enum):
-    english = "en"
-    chinese = "zh"
-
-
-class RagMethod(str, Enum):
-    DirectMatch = "DirectMatch"
-    ParentDoc = "ParentDoc"
-    NER = "NER"
-    Hypothetical = "HypoQuery"
-
-
-class RagType(str, Enum):
-    Common = "Common"
-    Fusion = "Fusion"
-    
-
 async def request_law_rag_chat(
     prompt: str,
     api_access_key: str,
-    language: str = "zh",
+    language: Language = Language.english,
     method: RagMethod = RagMethod.DirectMatch,
     rag_type: RagType = RagType.Common,
     top_k: int = 10,

@@ -2,6 +2,7 @@ import asyncio
 import streamlit as st
 import time
 
+from source.data_types import RagMethod, RagType, Language
 from source.api_requests import request_law_rag_chat
 
 
@@ -30,9 +31,9 @@ st.title("⚖️ Legal Expression Chatbot")
 with st.sidebar:
     st.title("RAG Chat Configuration")
     api_access_key = st.text_input("API Access Key", type="password")
-    language = st.selectbox("Language", ["zh", "en"])
-    method = st.selectbox("Method", ["DirectMatch", "ParentDoc", "NER", "HypoQuery"])
-    rag_type = st.selectbox("RAG Type", ["Common", "Fusion"])
+    language = st.selectbox("Language", [l.value for l in Language])
+    method = st.selectbox("Method", [m.value for m in RagMethod])
+    rag_type = st.selectbox("RAG Type", [t.value for t in RagType])
     top_k = st.number_input("Top K", value=5)
     parent_level = st.number_input("Parent Level", value=1)
     
