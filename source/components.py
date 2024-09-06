@@ -12,7 +12,7 @@ def review_pop_up_dialog():
     st.write("Please leave a review for the chatbot.")
 
     # Options for submitting a review
-    rating = st.slider("Rating", min_value=0, max_value=5)
+    rating = st.slider("Rating", value=3, min_value=0, max_value=5)
     comment = st.text_area("Comment")
     submit_session_state = st.checkbox(
         "Submit chat history and configuration to improve our chatbot.",

@@ -27,9 +27,6 @@ async def request_law_rag_chat(
         "parent_level": parent_level,
         "return_retrieved": True,
     }
-    logger.info(
-        f"Requesting chat with args {str(json)}"
-    )
     
     async with aiohttp.ClientSession() as session:
         async with session.post(
@@ -59,9 +56,6 @@ async def submit_review(
         "comment": comment,
         "configuration": configuration or "",
     }
-    logger.info(
-        f"Submitting review with args {str(json)}"
-    )
     
     async with aiohttp.ClientSession() as session:
         async with session.post(
