@@ -26,6 +26,11 @@ def create_chatbot_response(response: dict):
     return f"{retrieved_law_place_holder}:  \n{retrieved_laws}\n\n{response_place_holder}:  \n{rag_chat_response['response']}" 
 
 
+st.set_page_config(
+    page_title="Legal Expression Chatbot Testing",
+    page_icon="⚖️",
+    initial_sidebar_state="expanded",
+)
 
 st.title("⚖️ Legal Expression Chatbot Testing")
 
