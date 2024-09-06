@@ -1,6 +1,7 @@
 import aiohttp
 import asyncio
 from loguru import logger
+from typing import Optional
 
 from .config import CONFIG
 from .data_types import RagMethod, RagType, Language
@@ -32,7 +33,7 @@ async def request_law_rag_chat(
     
     async with aiohttp.ClientSession() as session:
         async with session.post(
-            url=ENDPOINT,
+            url=f"{ENDPOINT}/legalexp/rag/chat",
             json=json,
             headers={
                 "Authorization": f"Bearer {api_access_key}",
@@ -46,6 +47,37 @@ async def request_law_rag_chat(
             else:
                 raise Exception(f"Failed to retrieve response from server. Status code: {response.status}")
 
+
+async def submit_review(
+    api_access_key: str,
+    rating: int,
+    comment: str,
+    configuration: Optional[str] = None,
+):
+    json = {
+        "rating": rating,
+        "comment": comment,
+        "configuration": configuration or "",
+    }
+    logger.info(
+        f"Submitting review with args {str(json)}"
+    )
+    
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            url=f"{ENDPOINT}/legalexp/review/submit",
+            json=json,
+            headers={
+                "Authorization": f"Bearer {api_access_key}",
+            },
+        ) as response:
+            if response.status == 200:
+                response = await response.json()
+                return response
+            elif response.status == 401:
+                raise ValueError("Invalid API Access Key")
+            else:
+                raise Exception(f"Failed to retrieve response from server. Status code: {response.status}")
 
 
 if __name__ == "__main__":

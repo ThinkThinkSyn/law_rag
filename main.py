@@ -3,6 +3,7 @@ import streamlit as st
 import time
 
 from source.data_types import RagMethod, RagType, Language
+from source.components import review_pop_up_dialog
 from source.api_requests import request_law_rag_chat
 
 
@@ -19,13 +20,14 @@ def create_chatbot_response(response: dict):
     
     retrieved_laws = "\n".join(f"{i + 1}. {item}"
                                 for i, item in enumerate(rag_chat_response['retrieved']))
-    retrieved_law_place_holder = "Retrieved Laws" if st.session_state.config['language'] == "en" else "檢索到的法律"
-    response_place_holder = "Response" if st.session_state.config['language'] == "en" else "回應"
+    retrieved_law_place_holder = "檢索到的法律" if st.session_state.config['language'].startswith("zh") else "Retrieved Laws"
+    response_place_holder = "回應" if st.session_state.config['language'].startswith("zh") else "Response"
+    
     return f"{retrieved_law_place_holder}:  \n{retrieved_laws}\n\n{response_place_holder}:  \n{rag_chat_response['response']}" 
 
 
 
-st.title("⚖️ Legal Expression Chatbot")
+st.title("⚖️ Legal Expression Chatbot Testing")
 
 # Side bar for rag chat configuration
 with st.sidebar:
@@ -46,6 +48,11 @@ with st.sidebar:
         "top_k": top_k,
         "parent_level": parent_level,
     }
+
+    write_review_button = st.button("Write Review")
+    if write_review_button:
+        review_pop_up_dialog()
+    
 
 # Initialize chat history
 if "messages" not in st.session_state:
