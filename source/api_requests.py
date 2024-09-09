@@ -12,7 +12,7 @@ ENDPOINT = CONFIG["endpoint"]['prod']
 async def request_law_rag_chat(
     prompt: str,
     api_access_key: str,
-    language: Language = Language.english,
+    language: Language = Language.English,
     method: RagMethod = RagMethod.DirectMatch,
     rag_type: RagType = RagType.Common,
     top_k: int = 10,

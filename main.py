@@ -8,7 +8,11 @@ from source.components import review_pop_up_dialog
 from source.api_requests import request_law_rag_chat
 
 
-def string_streaming_simulation(string: str, num_of_slices: int = 500, delay: float = 0.005) -> Generator[str, None, None]:
+def string_streaming_simulation(
+    string: str,
+    num_of_slices: int = 500,
+    delay: float = 0.005
+) -> Generator[str, None, None]:
     """
     Simulate streaming of a string by yielding parts of it with delays.
 
@@ -55,8 +59,7 @@ st.title("⚖️ Legal Expression Chatbot Testing")
 # Side bar for rag chat configuration
 with st.sidebar:
     st.title("RAG Chat Configuration")
-    api_access_key = st.text_input("API Access Key", type="password")
-    language = st.selectbox("Language", [l.value for l in Language])
+    language = st.selectbox("Language", list(Language.__members__.keys()))
     method = st.selectbox("Method", [m.value for m in RagMethod])
     rag_type = st.selectbox("RAG Type", [t.value for t in RagType])
     top_k = st.number_input("Top K", value=5)
@@ -64,8 +67,8 @@ with st.sidebar:
     
     # Store the configuration in session state
     st.session_state.config = {
-        "api_access_key": api_access_key,
-        "language": language,
+        "api_access_key": st.secrets["api_key"],
+        "language": Language[language].value,
         "method": method,
         "rag_type": rag_type,
         "top_k": top_k,
