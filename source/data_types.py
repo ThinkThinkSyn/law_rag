@@ -1,8 +1,6 @@
 from enum import Enum
 
 
-from enum import Enum
-
 class Language(str, Enum):
     chinese_cantonese = "zh-yue"
     english = "en"
@@ -46,7 +44,6 @@ class Language(str, Enum):
     vietnamese = "vi"
     chinese_simplified = "zh-cn"
     chinese_traditional = "zh-tw"
-
 
 
 class RagMethod(str, Enum):
