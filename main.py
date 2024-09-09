@@ -1,16 +1,34 @@
 import asyncio
 import streamlit as st
 import time
+from typing import Generator
 
 from source.data_types import RagMethod, RagType, Language
 from source.components import review_pop_up_dialog
 from source.api_requests import request_law_rag_chat
 
 
-def string_streaming_simulation(string: str):
-    for char in string:
-        yield char
-        time.sleep(0.005)
+def string_streaming_simulation(string: str, num_of_slices: int = 500, delay: float = 0.005) -> Generator[str, None, None]:
+    """
+    Simulate streaming of a string by yielding parts of it with delays.
+
+    Args:
+    string (str): The input string to stream.
+    num_of_slices (int): The number of slices to divide the string into. Defaults to 500.
+    delay (float): The delay between yields in seconds. Defaults to 0.005.
+
+    Yields:
+    str: Parts of the input string.
+    """
+    if len(string) <= num_of_slices:
+        for char in string:
+            yield char
+            time.sleep(delay)
+    else:
+        slice_size = len(string) // num_of_slices
+        for i in range(0, len(string), slice_size):
+            yield string[i:i+slice_size]
+            time.sleep(delay)
 
 
 def create_chatbot_response(response: dict):
