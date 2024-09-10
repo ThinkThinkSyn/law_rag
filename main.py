@@ -42,10 +42,9 @@ def create_chatbot_response(response: dict):
     
     retrieved_laws = "\n".join(f"{i + 1}. {item}"
                                 for i, item in enumerate(rag_chat_response['retrieved']))
-    retrieved_law_place_holder = "檢索到的法律" if st.session_state.config['language'].startswith("zh") else "Retrieved Laws"
-    response_place_holder = "回應" if st.session_state.config['language'].startswith("zh") else "Response"
+    retrieved_law_place_holder = "相關的法律" if st.session_state.config['language'].startswith("zh") else "Relevant Laws"
     
-    return f"{retrieved_law_place_holder}:  \n{retrieved_laws}\n\n{response_place_holder}:  \n{rag_chat_response['response']}" 
+    return f"{rag_chat_response['response']}\n\n{retrieved_law_place_holder}: \n{retrieved_laws}"
 
 
 st.set_page_config(
